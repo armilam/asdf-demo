@@ -2,78 +2,82 @@
 
 See github.com/asdf-vm/adf
 
-## Go to python project
+## Go to project
 ```sh
-cd python-project-1
+cd project-1
 ```
 
-## What version of python do I have?
+## What version of Go do I have?
 ```sh
-python --version
+go version
 ```
 
-I need 3.7.3, but I don't have the right version!
-Let's get the right version.
+Whoops, I don't have it installed! Let's install it.
 
 ## What plugins do I have?
 ```sh
 asdf plugin-list
 ```
 
-## Add python
+## Let's add Go to our installed plugins
 ```sh
-asdf plugin-add python
+asdf plugin-add golang
 ```
 
-## Get python 3.7.3
+## What versions of Go are available?
 ```sh
-asdf install python 3.7.3
+asdf list-all golang
+```
+
+## Let's get the latest version
+```sh
+asdf install golang 1.12.6
 ```
 
 ## Make that the global version
 ```sh
-asdf global python 3.7.3
+asdf global golang 1.12.6
 ```
 
-## Now what version of python am I running?
+## Now what version of Go am I running now?
 ```sh
-python --version
+go version
 ```
 
 Great, I have the right version.
 
-## Now, let's go to this other python project
+## Now, let's go to this other Go project
 ```sh
-cd ../python-project-2
+cd ../project-2
 ```
 
-## This project requires an old version of python. Let's install it.
+## This project requires an older version of Go. Let's install it.
 ```sh
-asdf install python 2.2.3
+asdf install golang 1.5.4
 ```
 
 I can't make that my global version - that'll mess up my other project.
 
 ## Let's make it the local version for this project
 ```sh
-asdf local python 2.2.3
+asdf local golang 1.5.4
 ```
 
 ## Let's see what version we're using
 ```sh
-python --version
+go version
 ```
 
 Great! We're using the right version for this project.
 
 ## How is that happening?
 ```sh
-cat .tool-versions
+vi .tool-versions
 ```
 
 ## How is the global version set?
 ```sh
-cat ~/.tool-versions
+vi ~/.tool-versions
 ```
 
 asdf traverses up the directory tree and looks for a .tool-versions file to find what version to run
@@ -95,12 +99,12 @@ pg_ctl --version
 
 ## And see .tool-versions again
 ```sh
-cat .tool-versions
+vi .tool-versions
 ```
 
 ## Oh wait, the first project needs postgres, too.
 ```sh
-cd ../python-project-1
+cd ../project-1
 ```
 
 But it needs a newer version. When you install PG, it's compiled from source. That takes a few minutes, which is why I'm only demoing with versions I already have installed.
@@ -124,10 +128,22 @@ How does asdf make the right version run?
 
 ## When you install a plugin, it creates a file (a shim) in your path that is called when you run the tool.
 ```sh
-which python
+which go
 ```
 
-# That runs asdf's script which finds the .tool-versions file and runs the defined version.
+## That runs asdf's script which finds the .tool-versions file and runs the defined version.
 ```sh
-cat $(which python)
+vi $(which go)
+```
+
+## When you want to remove a version
+```sh
+asdf uninstall golang 1.5.4
+asdf list golang
+```
+
+## And when you want to remove an entire plugin
+```sh
+asdf plugin-remove golang
+asdf plugin-list
 ```
